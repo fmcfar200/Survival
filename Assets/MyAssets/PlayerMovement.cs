@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 
     private GameObject player;  //player object
+    private PlayerCombat combatScript;
     //Animator playerAnimator;
     Transform playerTransform;  //transform 
 
@@ -25,6 +26,8 @@ public class PlayerMovement : MonoBehaviour {
     private float hRight;
     private float vRight;
 
+
+
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -32,6 +35,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             //playerAnimator = player.GetComponent<Animator>();
             playerTransform = player.transform;
+            combatScript = GetComponent<PlayerCombat>();
         }
     }
 
@@ -56,7 +60,6 @@ public class PlayerMovement : MonoBehaviour {
         if (Input.GetKey("joystick button 0"))
         {
             running = true;
-            Debug.Log(running.ToString());
         }
         else
         {
@@ -77,10 +80,11 @@ public class PlayerMovement : MonoBehaviour {
 
     void FixedUpdate()
     {
-
-        playerTransform.Translate(Vector3.forward * currentSpeed * vLeft * Time.deltaTime); //forward and backwards movement depending on axis float
-        playerTransform.Translate(Vector3.right * currentSpeed * hLeft * Time.deltaTime); // strathe movement depending on axis float
-
+        if (!combatScript.aiming)
+        {
+            playerTransform.Translate(Vector3.forward * currentSpeed * vLeft * Time.deltaTime); //forward and backwards movement depending on axis float
+            playerTransform.Translate(Vector3.right * currentSpeed * hLeft * Time.deltaTime); // strathe movement depending on axis float
+        }
         playerTransform.Rotate(Vector3.up * vRight *20.0f * Time.deltaTime);
     }
 }
