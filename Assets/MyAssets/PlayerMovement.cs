@@ -3,24 +3,30 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 
-    private GameObject player;
-    Animator playerAnimator;
-    Transform playerTransform;
+    private GameObject player;  //player object
+    //Animator playerAnimator;
+    Transform playerTransform;  //transform 
 
-    private float runSpeed;
-    private bool moving;
+    private float runSpeed; //run speed
 
-    private string verticalString = "Vertical";
-    private string horizontalString = "Horizontal";
-    private float hor;
-    private float vert;
+    //Input strings and floats
+    private const string vLeftString = "VerticalLeft";
+    private const string hLeftString = "HorizontalLeft";
+
+    private const string vRightString = "VerticalRight";
+    private const string hRightString = "HorizontalRight";
+
+    private float hLeft;
+    private float vLeft;
+    private float hRight;
+    private float vRight;
 
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         if (player!= null)
         {
-            playerAnimator = player.GetComponent<Animator>();
+            //playerAnimator = player.GetComponent<Animator>();
             playerTransform = player.transform;
         }
     }
@@ -28,7 +34,6 @@ public class PlayerMovement : MonoBehaviour {
     void Start()
     {
         runSpeed = 1.0f;
-        moving = false;
 
         
 
@@ -36,31 +41,19 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update()
     {
-        hor = Input.GetAxis(horizontalString);
-        vert = Input.GetAxis(verticalString);
+        hLeft = Input.GetAxis(hLeftString);
+        vLeft = Input.GetAxis(vLeftString);
 
-        if (vert > 0)
-        {
-            playerAnimator.SetBool("Moving", true);
-        }
-        else
-        {
-            playerAnimator.SetBool("Moving", false);
-        }
+        hRight = Input.GetAxis(hRightString);
+        vRight = Input.GetAxis(vRightString);
+
     }
 
     void FixedUpdate()
     {
-        if (vert > 0 || vert < 0)
-        {
-            playerTransform.Translate(Vector3.forward * runSpeed * vert * Time.deltaTime);
-            
-        }
-        else if (hor > 0 || hor < 0)
-        {
-            playerTransform.Translate(Vector3.right * runSpeed * hor * Time.deltaTime);
-
-        }
-
+       
+        playerTransform.Translate(Vector3.forward * runSpeed * vLeft * Time.deltaTime); //forward and backwards movement depending on axis float
+        playerTransform.Translate(Vector3.right * runSpeed * hLeft * Time.deltaTime); // strathe movement depending on axis float
+        playerTransform.Rotate(Vector3.up * vRight *20.0f * Time.deltaTime);
     }
 }
