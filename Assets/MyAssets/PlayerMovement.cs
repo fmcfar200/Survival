@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour {
     Transform playerTransform;  //transform 
 
     private float runSpeed; //run speed
+    private float walkSpeed;
+    private float currentSpeed;
+
+    private bool running;
 
     //Input strings and floats
     private const string vLeftString = "VerticalLeft";
@@ -33,8 +37,10 @@ public class PlayerMovement : MonoBehaviour {
 
     void Start()
     {
-        runSpeed = 1.0f;
-
+        walkSpeed = 1.0f;
+        runSpeed = 2.5f;
+        currentSpeed = walkSpeed;
+        running = false;
         
 
     }
@@ -47,13 +53,34 @@ public class PlayerMovement : MonoBehaviour {
         hRight = Input.GetAxis(hRightString);
         vRight = Input.GetAxis(vRightString);
 
+        if (Input.GetKey("joystick button 0"))
+        {
+            running = true;
+            Debug.Log(running.ToString());
+        }
+        else
+        {
+            running = false;
+        }
+        
+
+        if (running)
+        {
+            currentSpeed = runSpeed;
+        }
+        else
+        {
+            currentSpeed = walkSpeed;
+        }
+
     }
 
     void FixedUpdate()
     {
-       
-        playerTransform.Translate(Vector3.forward * runSpeed * vLeft * Time.deltaTime); //forward and backwards movement depending on axis float
-        playerTransform.Translate(Vector3.right * runSpeed * hLeft * Time.deltaTime); // strathe movement depending on axis float
+
+        playerTransform.Translate(Vector3.forward * currentSpeed * vLeft * Time.deltaTime); //forward and backwards movement depending on axis float
+        playerTransform.Translate(Vector3.right * currentSpeed * hLeft * Time.deltaTime); // strathe movement depending on axis float
+
         playerTransform.Rotate(Vector3.up * vRight *20.0f * Time.deltaTime);
     }
 }
