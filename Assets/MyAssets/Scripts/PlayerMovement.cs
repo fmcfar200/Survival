@@ -76,6 +76,11 @@ public class PlayerMovement : MonoBehaviour {
             currentSpeed = walkSpeed;
         }
 
+        if (Input.GetKeyUp("joystick button 0") && vLeft == -1 && combatScript.aiming == false)
+        {
+            Spin();
+        }
+
     }
 
     void FixedUpdate()
@@ -84,7 +89,13 @@ public class PlayerMovement : MonoBehaviour {
         {
             playerTransform.Translate(Vector3.forward * currentSpeed * vLeft * Time.deltaTime); //forward and backwards movement depending on axis float
             playerTransform.Translate(Vector3.right * currentSpeed * hLeft * Time.deltaTime); // strathe movement depending on axis float
+            playerTransform.Rotate(Vector3.up * vRight * 20.0f * Time.deltaTime);
+
         }
-        playerTransform.Rotate(Vector3.up * vRight *20.0f * Time.deltaTime);
+    }
+
+    void Spin()
+    {
+        playerTransform.RotateAround(playerTransform.position, Vector3.up, 180.0f);
     }
 }
