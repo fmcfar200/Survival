@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private GameObject player;  //player object
     private PlayerCombat combatScript;
-    //Animator playerAnimator;
+    Animator playerAnimator;
     Transform playerTransform;  //transform 
 
     private float runSpeed; //run speed
@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         if (player!= null)
         {
-            //playerAnimator = player.GetComponent<Animator>();
+            playerAnimator = player.GetComponent<Animator>();
             playerTransform = player.transform;
             combatScript = GetComponent<PlayerCombat>();
         }
@@ -70,10 +70,27 @@ public class PlayerMovement : MonoBehaviour {
         if (running)
         {
             currentSpeed = runSpeed;
+         
         }
         else
         {
             currentSpeed = walkSpeed;
+
+            if (vLeft > 0)
+            {
+                playerAnimator.SetBool("Walking", true);
+
+            }
+            else if (vLeft == 0)
+            {
+                playerAnimator.SetBool("Walking", false);
+
+
+            }
+            else if (vLeft < 0)
+            {
+                playerAnimator.SetBool("Walking", true);
+            }
         }
 
         if (Input.GetKeyUp("joystick button 0") && vLeft == -1 && combatScript.aiming == false)
@@ -89,7 +106,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             playerTransform.Translate(Vector3.forward * currentSpeed * vLeft * Time.deltaTime); //forward and backwards movement depending on axis float
             playerTransform.Translate(Vector3.right * currentSpeed * hLeft * Time.deltaTime); // strathe movement depending on axis float
-            playerTransform.Rotate(Vector3.up * vRight * 20.0f * Time.deltaTime);
+            playerTransform.Rotate(Vector3.up * vRight * 50.0f * Time.deltaTime);
 
         }
     }

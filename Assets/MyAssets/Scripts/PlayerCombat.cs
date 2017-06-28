@@ -90,19 +90,29 @@ public class PlayerCombat : MonoBehaviour {
                 cam.fieldOfView = aimingFOV;
                 gun.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = true;
                 Aim();
-                
+
+                //TEMP HERE
+                GetComponent<Animator>().enabled = false;
+
                 break;
 
             case false:
                 cam.fieldOfView = normalFOV;
                 gun.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
                 ResetSpine();
+
+                //TEMP HERE
+                GetComponent<Animator>().enabled = true;
                 break;
         }
     }
 
     void Aim()
     {
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.velocity = new Vector3(0, 0, 0);
+
         RaycastHit hit;
         Ray ray = new Ray(gun.position, gun.forward);
 
