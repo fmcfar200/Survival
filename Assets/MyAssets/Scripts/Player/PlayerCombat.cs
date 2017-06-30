@@ -20,6 +20,8 @@ public class PlayerCombat : MonoBehaviour {
 
 
     public Transform gun;
+    public GameObject pointPrefab;
+    GameObject point;
     private float fireRate = 0.5f;
     private float nextFire = 0.0f;
 
@@ -85,6 +87,8 @@ public class PlayerCombat : MonoBehaviour {
             case true:
                 cam.fieldOfView = aimingFOV;
                 gun.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = true;
+                gun.transform.GetChild(1).gameObject.SetActive(true);
+
                 Aim();
 
 
@@ -93,6 +97,11 @@ public class PlayerCombat : MonoBehaviour {
             case false:
                 cam.fieldOfView = normalFOV;
                 gun.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
+                gun.transform.GetChild(1).gameObject.SetActive(false);
+                if (point != null)
+                {
+                    Destroy(point);
+                }
                 ResetSpine();                
                 break;
         }
@@ -107,9 +116,17 @@ public class PlayerCombat : MonoBehaviour {
         RaycastHit hit;
         Ray ray = new Ray(gun.position, gun.forward);
 
-        if (Physics.Raycast(ray,out hit))
+        if (Physics.Raycast(ray, out hit, 150.0f))
         {
-            print("Aiming at: " + hit.collider.name);
+            point = GameObject.FindGameObjectWithTag("Point");
+            if ( point == null)
+            {
+                Instantiate(pointPrefab, hit.point, Quaternion.identity, gun);
+            }
+            else
+            {
+                point.transform.position = hit.point;
+            }
         }
 
         if (fire == 1 && Time.time > nextFire && clip > 0)
@@ -137,7 +154,14 @@ public class PlayerCombat : MonoBehaviour {
             if (target.collider.gameObject.tag == "Enemy")
             {
                 GameObject hitTarget = target.collider.gameObject;
-                Destroy(hitTarget);
+                Health targetHealth = hitTarget.GetComponent<Health>();
+                targetHealth.TakeDamage(20.0f);
+            }
+            else if (target.collider.gameObject.tag == "EnemyHead")
+            {
+                GameObject hitTarget = target.transform.root.gameObject;
+                Health targetHealth = hitTarget.GetComponent<Health>();
+                targetHealth.TakeDamage(50.0f);
             }
         }
 

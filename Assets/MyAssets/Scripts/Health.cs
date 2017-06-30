@@ -4,11 +4,13 @@ using System.Collections;
 public class Health : MonoBehaviour {
 
     public float currentHealth;
+    public bool dead;
     float maxHealth = 100f;
 
     void Start()
     {
         currentHealth = maxHealth;
+        dead = false;
     }
 
     void Update()
@@ -30,5 +32,21 @@ public class Health : MonoBehaviour {
         {
             print("Dead");
         }
+
+        DestroyComponenents();
+
+        dead = true;
+    }
+
+    void DestroyComponenents()
+    {
+        Destroy(GetComponent<Collider>());
+        Destroy(GetComponent<Rigidbody>());
+        Destroy(GetComponent<NavMeshAgent>());
+        Destroy(GetComponent<EnemyMovement>());
+        Destroy(GetComponent<EnemyCombat>());
+
+
+
     }
 }
