@@ -63,10 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\MyAssets\Scripts\Health.cs" />
     <Compile Include="Assets\MyAssets\Scripts\PlayerAnimations.cs" />
     <Compile Include="Assets\MyAssets\Scripts\PlayerCombat.cs" />
     <Compile Include="Assets\MyAssets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\MyAssets\Scripts\ThirdPersonCamera.cs" />
+    <Compile Include="Assets\UIScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />

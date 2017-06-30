@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
 
 public class PlayerCombat : MonoBehaviour {
 
@@ -24,8 +23,8 @@ public class PlayerCombat : MonoBehaviour {
     private float fireRate = 0.5f;
     private float nextFire = 0.0f;
 
-    private int clip;
-    private int ammo;
+    public int clip;
+    public int ammo;
     private int maxClip;
     private int maxAmmo;
 
@@ -33,8 +32,6 @@ public class PlayerCombat : MonoBehaviour {
     public Transform playerSpine;
     private Quaternion normalSpinRotation = new Quaternion(0, 0, 0,0);
 
-    // UI
-    public Text ammoText;
 
     void Awake()
     {
@@ -70,7 +67,6 @@ public class PlayerCombat : MonoBehaviour {
             aiming = true;
 
         }
-        ammoText.text = clip.ToString() + "/" + ammo.ToString();
 
         if (Input.GetKeyDown("joystick button 2"))
         {
@@ -91,18 +87,13 @@ public class PlayerCombat : MonoBehaviour {
                 gun.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = true;
                 Aim();
 
-                //TEMP HERE
-                GetComponent<Animator>().enabled = false;
 
                 break;
 
             case false:
                 cam.fieldOfView = normalFOV;
                 gun.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
-                ResetSpine();
-
-                //TEMP HERE
-                GetComponent<Animator>().enabled = true;
+                ResetSpine();                
                 break;
         }
     }
@@ -133,9 +124,9 @@ public class PlayerCombat : MonoBehaviour {
         float aimHorRight = Input.GetAxis(hRightString);
 
         
-        playerSpine.Rotate(-Vector3.right * aimVertRight * 20.0f * Time.deltaTime);
+        //playerSpine.Rotate(-Vector3.right * aimVertRight * 20.0f * Time.deltaTime);
         playerSpine.Rotate(Vector3.forward * aimHorRight * 20.0f * Time.deltaTime);
-
+        transform.Rotate(Vector3.up * aimVertRight * 20.0f * Time.deltaTime);
 
     }
 

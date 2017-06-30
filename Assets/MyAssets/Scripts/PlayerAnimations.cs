@@ -5,8 +5,10 @@ public class PlayerAnimations : MonoBehaviour {
 
     Animator animator;
     PlayerMovement movement;
+    PlayerCombat combat;
 
     bool running;
+    bool aiming;
 
     float vert, hor, run;
 
@@ -14,7 +16,7 @@ public class PlayerAnimations : MonoBehaviour {
     {
         animator = GetComponent<Animator>();
         movement = GetComponent<PlayerMovement>();
-
+        combat = GetComponent<PlayerCombat>();
        
     }
     
@@ -23,10 +25,14 @@ public class PlayerAnimations : MonoBehaviour {
         
         vert = Input.GetAxis("VerticalLeft");
         hor = Input.GetAxis("HorizontalLeft");
+
         running = movement.running;
+        aiming = combat.aiming;
 
         animator.SetFloat("Walking", vert);
         Running();
+        DisableAnimatorWhenAiming();
+
     }
 
     void Running()
@@ -42,5 +48,21 @@ public class PlayerAnimations : MonoBehaviour {
 
         animator.SetFloat("Running", run);
     }
+
+    void DisableAnimatorWhenAiming()
+    {
+        if (aiming)
+        {
+            animator.enabled = false;
+        }
+        else
+        {
+            animator.enabled = true;
+        }
+    }
+
+    
+
+    
 
 }

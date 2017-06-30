@@ -55,11 +55,11 @@ public class PlayerMovement : MonoBehaviour {
         hRight = Input.GetAxis(hRightString);
         vRight = Input.GetAxis(vRightString);
 
-        if (Input.GetKey("joystick button 0"))
+        if (Input.GetKey("joystick button 0") && vLeft > 0)
         {
             running = true;
         }
-        else
+        else if (Input.GetKeyUp("joystick button 0"))
         {
             running = false;
         }
@@ -68,6 +68,7 @@ public class PlayerMovement : MonoBehaviour {
         if (running)
         {
             currentSpeed = runSpeed;
+
          
         }
         else
@@ -77,7 +78,7 @@ public class PlayerMovement : MonoBehaviour {
             
         }
 
-        if (Input.GetKeyUp("joystick button 0") && vLeft == -1 && combatScript.aiming == false)
+        if (Input.GetKeyUp("joystick button 0") && vLeft == -1 && combatScript.aiming == false && running == false)
         {
             Spin();
         }
