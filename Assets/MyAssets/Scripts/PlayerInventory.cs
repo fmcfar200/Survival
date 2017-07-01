@@ -1,19 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerInventory : MonoBehaviour {
 
-    public GameObject slots;
+    InventoryDatabase itemDatabase;
 
+    public List<Item> items;
+    public List<Item> playersItems = new List<Item>();
+    public List<GameObject> itemSlotPrefabs = new List<GameObject>();
+
+
+    int itemCount;
+    int slotsAvailable = 8;
+    
     void Start()
     {
-        for (int i = 0; i < 2; i++)
+        itemDatabase = GetComponent<InventoryDatabase>();
+        items = itemDatabase.items;
+
+        SetStartingItems();
+    }
+
+    void Update()
+    {
+        itemCount = playersItems.Count;
+    }
+
+    void SetStartingItems()
+    {
+        //adds items to inventory list
+        for (int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 4; j++)
-            {
-                GameObject slot = (GameObject)Instantiate(slots);
-                slot.transform.SetParent(this.gameObject.transform);
-            }
+            playersItems.Add(items[i]);
+            itemCount++;
+
         }
+
+        for (int i = 0; i < itemCount; i++)
+        {
+            GameObject slotItem = (GameObject)Instantiate(itemSlotPrefabs[i], this.transform);
+        }  
+        
     }
 }
