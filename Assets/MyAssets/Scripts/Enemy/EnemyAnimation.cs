@@ -26,7 +26,7 @@ public class EnemyAnimation : MonoBehaviour {
     void Update()
     {
         attacking = combat.attacking;
-        walking = movement.walking;
+        walking = movement.chasing;
         dead = health.dead;
        
         animator.SetBool("Walking", walking);

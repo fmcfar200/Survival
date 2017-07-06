@@ -63,18 +63,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\InventoryDatabase.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Enemy\EnemyAnimation.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Enemy\EnemyCombat.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Enemy\EnemyMovement.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\Footstep.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Health.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\InventoryDatabase.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Item.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\Player\AudioManager.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\Player\HealthInventory.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Player\PlayerAnimations.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Player\PlayerCombat.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\MyAssets\Scripts\Player\ThirdPersonCamera.cs" />
+    <Compile Include="Assets\MyAssets\Scripts\Player\UIScript.cs" />
     <Compile Include="Assets\MyAssets\Scripts\PlayerInventory.cs" />
-    <Compile Include="Assets\MyAssets\Scripts\UIScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />

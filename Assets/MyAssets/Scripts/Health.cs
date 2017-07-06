@@ -5,7 +5,7 @@ public class Health : MonoBehaviour {
 
     public float currentHealth;
     public bool dead;
-    float maxHealth = 100f;
+    public float maxHealth = 100f;
 
     void Start()
     {
@@ -47,6 +47,21 @@ public class Health : MonoBehaviour {
         Destroy(GetComponent<EnemyCombat>());
 
 
+
+    }
+
+    public void AddHealth(float amount)
+    {
+        float healthNeeded = maxHealth - currentHealth;
+        if (amount > healthNeeded)
+        {
+            currentHealth = maxHealth;
+        }
+        else
+        {
+            currentHealth += amount;
+
+        }
 
     }
 }

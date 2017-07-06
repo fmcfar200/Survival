@@ -28,12 +28,12 @@ public class EnemyCombat : MonoBehaviour {
 
         if (attacking)
         {
-            movement.walking = false;
+            movement.chasing = false;
             Attack();
         }
         else
         {
-            movement.walking = true;
+            movement.chasing = true;
         }
     }
 
@@ -45,7 +45,7 @@ public class EnemyCombat : MonoBehaviour {
 
             if (playerDistance <= 1.25f)
             {
-                movement.walking = false;
+                movement.chasing = false;
                 attacking = true;
             }
             else

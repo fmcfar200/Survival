@@ -3,6 +3,12 @@ using System.Collections;
 
 public class PlayerCombat : MonoBehaviour {
 
+    public delegate void ShotEvent();
+    public delegate IEnumerator ReloadEvent();
+    public static event ShotEvent onShoot;
+    public static event ReloadEvent onReload;
+
+
     //camera variables
     private Camera cam;
     private Transform cameraTrans;
@@ -33,6 +39,7 @@ public class PlayerCombat : MonoBehaviour {
     //player
     public Transform playerSpine;
     private Quaternion normalSpinRotation = new Quaternion(0, 0, 0,0);
+
 
 
     void Awake()
@@ -67,21 +74,19 @@ public class PlayerCombat : MonoBehaviour {
         else
         {
             aiming = true;
-
         }
 
         if (Input.GetKeyDown("joystick button 2"))
         {
             if (clip < maxClip && ammo > 0)
             {
-                Reload();
+                StartCoroutine(Reload());
             }
         }
     }
 
     void FixedUpdate()
     {
-
         switch (aiming)
         {
             case true:
@@ -140,15 +145,14 @@ public class PlayerCombat : MonoBehaviour {
         float aimVertRight = Input.GetAxis(vRightString);
         float aimHorRight = Input.GetAxis(hRightString);
 
-        
         //playerSpine.Rotate(-Vector3.right * aimVertRight * 20.0f * Time.deltaTime);
         playerSpine.Rotate(Vector3.forward * aimHorRight * 20.0f * Time.deltaTime);
         transform.Rotate(Vector3.up * aimVertRight * 20.0f * Time.deltaTime);
-
     }
 
     void Fire(RaycastHit target, Ray ray)
     {
+        onShoot();
         if (Physics.Raycast(ray, out target))
         {
             if (target.collider.gameObject.tag == "Enemy")
@@ -162,6 +166,10 @@ public class PlayerCombat : MonoBehaviour {
                 GameObject hitTarget = target.transform.root.gameObject;
                 Health targetHealth = hitTarget.GetComponent<Health>();
                 targetHealth.TakeDamage(50.0f);
+                if (targetHealth.currentHealth <= 0)
+                {
+                    Destroy(target.collider.gameObject);
+                }
             }
         }
 
@@ -173,19 +181,25 @@ public class PlayerCombat : MonoBehaviour {
         playerSpine.rotation = normalSpinRotation;
     }
 
-    void Reload()
+    IEnumerator Reload()
     {
-        int bulletsNeeded = maxClip - clip;
+        AudioManager aManager = GetComponent<AudioManager>();
+        StartCoroutine(onReload());
+        yield return new WaitForSeconds((aManager.gun1Sounds[1].length + aManager.gun1Sounds[2].length) + 0.1f);
+            int bulletsNeeded = maxClip - clip;
 
-        if (ammo >= bulletsNeeded)
-        {
-            clip += bulletsNeeded;
-            ammo -= bulletsNeeded;
-        }
-        else
-        {
-            clip += ammo;
-            ammo -= ammo;
-        }
+            if (ammo >= bulletsNeeded)
+            {
+                clip += bulletsNeeded;
+                ammo -= bulletsNeeded;
+            }
+            else
+            {
+                clip += ammo;
+                ammo -= ammo;
+            }
+        
     }
+
+    
 }

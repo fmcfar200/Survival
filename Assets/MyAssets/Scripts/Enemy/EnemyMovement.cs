@@ -10,20 +10,13 @@ public class EnemyMovement : MonoBehaviour {
     public float distance;
 
     bool playerFound;
-    public bool walking;
+    public bool chasing;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        if (player != null)
-        {
-            playerFound = true;
-        }
-        else
-        {
-            playerFound = false;
-        }
+       
         agent = GetComponent<NavMeshAgent>();
         agent.speed = walkSpeed;
 
@@ -31,25 +24,33 @@ public class EnemyMovement : MonoBehaviour {
 
     void Update()
     {
+        distance = Vector3.Distance(player.transform.position, transform.position);
+        if (distance < 5.0f)
+        {
+            playerFound = true;
+        }
+        else
+        {
+            playerFound = false;
+        }
     }
 
     void FixedUpdate()
     {
+
         if (playerFound)
         {
-            distance = Vector3.Distance(player.transform.position, transform.position);
             agent.destination = player.transform.position;
-            walking = true;
+            chasing = true;
 
         }
         else
         {
-            distance = 20.0f;
             agent.destination = transform.position;
-            walking = false;
+            chasing = false;
         }
 
-        if (walking == false)
+        if (chasing == false)
         {
             agent.Stop();
         }
@@ -58,4 +59,6 @@ public class EnemyMovement : MonoBehaviour {
             agent.Resume();
         }
     }
+
+ 
 }

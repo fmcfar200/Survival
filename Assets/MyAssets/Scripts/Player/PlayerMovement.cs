@@ -25,8 +25,6 @@ public class PlayerMovement : MonoBehaviour {
     private float hRight;
     private float vRight;
 
-
-
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -89,6 +87,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (!combatScript.aiming)
         {
+            
             playerTransform.Translate(Vector3.forward * currentSpeed * vLeft * Time.deltaTime); //forward and backwards movement depending on axis float
             playerTransform.Rotate(Vector3.up * hLeft * 50.0f * Time.deltaTime);
 
